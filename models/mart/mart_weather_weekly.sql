@@ -2,8 +2,7 @@
 
 SELECT
     airport_code,
-
-    DATE_TRUNC('week', weather_date) AS weather_week,
+    DATE_TRUNC('week', date) AS weather_week,
 
     AVG(avg_temp) AS avg_weekly_temp,
     AVG(avg_wind_speed) AS avg_weekly_wind_speed,
@@ -13,4 +12,4 @@ FROM {{ ref('prep_weather_daily') }}
 
 GROUP BY
     airport_code,
-    DATE_TRUNC('week', weather_date)
+    DATE_TRUNC('week', date)
