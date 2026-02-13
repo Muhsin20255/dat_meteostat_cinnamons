@@ -4,7 +4,7 @@ SELECT
 
     AVG(avg_temp_c) AS avg_weekly_temp,
     AVG(avg_wind_speed_kmh) AS avg_weekly_wind_speed,
-    SUM(total_precipitation_mm) AS total_weekly_precipitation
+    SUM(precipitation_mm) AS total_weekly_precipitation
 
 FROM {{ ref('prep_weather_daily') }}
 
