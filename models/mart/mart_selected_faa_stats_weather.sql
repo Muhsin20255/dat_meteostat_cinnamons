@@ -1,39 +1,16 @@
-
-WITH airport_daily_stats AS (
-
-    SELECT
-        origin AS faa,
-        flight_date,
-
-        COUNT(*) AS total_flights,
-        SUM(cancelled) AS total_cancelled,
-        AVG(arr_delay) AS avg_arrival_delay
-
-    FROM {{ ref('prep_flights') }}
-
-    GROUP BY origin, flight_date
-)
+/* 5.4 Weekly Weather Statistics */
 
 SELECT
-    ads.faa,
-    ap.city,
-    ap.country,
-    ap.name,
+    airport_code,
 
-    ads.flight_date,
-    ads.total_flights,
-    ads.total_cancelled,
-    ads.avg_arrival_delay,
+    DATE_TRUNC('week', date) AS weather_week,
 
-    w.avg_temp,
-    w.avg_wind_speed,
-    w.total_precipitation
+    AVG(avg_temp) AS avg_weekly_temp,
+    AVG(avg_wind_speed) AS avg_weekly_wind_speed,
+    SUM(total_precipitation) AS total_weekly_precipitation
 
-FROM airport_daily_stats ads
+FROM {{ ref('prep_weather_daily') }}
 
-LEFT JOIN {{ ref('prep_airports') }} ap
-    ON ads.faa = ap.faa
-
-LEFT JOIN {{ ref('prep_weather_daily') }} w
-    ON ads.faa = w.airport_code
-    AND ads.flight_date = w.weather_date
+GROUP BY
+    airport_code,
+    DATE_TRUNC('week', date)
