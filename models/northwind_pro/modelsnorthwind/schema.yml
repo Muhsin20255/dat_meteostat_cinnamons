@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: mart_sales_performance
+    description: "Monthly sales performance by category"
+    columns:
+      - name: order_year
+        tests:
+          - not_null
+      - name: order_month
+        tests:
+          - not_null
+      - name: category_name
+        tests:
+          - not_null
+      - name: total_revenue
+        tests:
+          - not_null
